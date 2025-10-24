@@ -1,2 +1,12 @@
 #!/bin/bash
-python3 "$(dirname "$0")/ddfast.py" "$@"
+
+LIBDIR="/usr/local/lib/ddFast"
+SCRIPT="$LIBDIR/ddfast.sh"
+
+if [[ ! -f "$SCRIPT" ]]; then
+  sudo mkdir -p "$LIBDIR"
+  sudo curl -fsSL https://raw.githubusercontent.com/lucysgutz/ddFast/main/ddfast.sh -o "$SCRIPT"
+  sudo chmod +x "$SCRIPT"
+fi
+
+sudo "$SCRIPT" "$@"
