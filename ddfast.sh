@@ -1,7 +1,8 @@
-  GNU nano 8.3                                                                                                                                         /usr/local/bin/ddfast                                                                                                                                                   
 #!/usr/bin/env bash
 
 set -euo pipefail
+
+INSTALL_DIR="/usr/local/lib/ddFast"
 
 if [[ $EUID -ne 0 ]]; then
   echo "run as root (sudo ddfast ...)"
@@ -13,12 +14,11 @@ DST="${2:-}"
 
 if [[ -z "$SRC" || -z "$DST" ]]; then
   echo "usage: sudo ddfast <image.iso> <target_disk>"
-  echo "example: sudo ddfast ~/Downloads/fedora.iso sdb"
+  echo "example: sudo ddfast ~/Downloads/os.iso sdb"
   exit 1
 fi
 
 [[ "$DST" != /dev/* ]] && DST="/dev/$DST"
-
 [[ -f "$SRC" ]] || { echo "file not found: $SRC"; exit 1; }
 [[ -b "$DST" ]] || { echo "target not found or invalid: $DST"; exit 1; }
 
@@ -27,7 +27,7 @@ SRC_H=$(numfmt --to=iec-i --suffix=B "$SRC_SIZE" 2>/dev/null || echo "$SRC_SIZE 
 DST_SIZE=$(blockdev --getsize64 "$DST" 2>/dev/null || echo 0)
 DST_H=$(numfmt --to=iec-i --suffix=B "$DST_SIZE" 2>/dev/null || echo "$DST_SIZE bytes")
 
-echo "== DDFast :: fast iso writer =="
+echo "Welcome to ddFast!"
 echo "source: $SRC ($SRC_H)"
 echo "target: $DST ($DST_H)"
 echo
@@ -51,4 +51,10 @@ fi
 
 sync
 echo
-echo "✅ done! wrote $SRC → $DST"
+echo "done! wrote $SRC → $DST"
+echo
+echo "────────────────────────────────────────────"
+echo " thank you for using ddFast"
+echo " made by lucysgutz"
+echo " https://lucys.space/"
+echo "────────────────────────────────────────────"
